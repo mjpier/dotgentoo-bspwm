@@ -1,0 +1,605 @@
+INSTALACION DE GENTOO ENCRIPTADO BTRFS
+
+PREPARACION DE DISCOS
+
+### gdisk /dev/sda
+
+	o (Create a new empty GUID partition table (GPT))
+	Proceed? Y
+
+	n (Add a new partition)
+	Partition number 1
+	First sector 2048 (default)
+	Last sector +512M
+	Hex code EF00
+
+	n (Add a new partition)
+	Partition number 2
+	First sector 1050624 (default)
+	Last sector (press Enter to use remaining disk)
+	Hex code 8300
+
+	w
+	Y
+
+### gdisk -l /dev/sda
+	Number  Start (sector)    End (sector)  Size       Code  Name
+	   1            2048         1050623   512.0 MiB   EF00  EFI
+	   2         1050624       500118158   238.0 GiB   8300  Linux File System
+	   
+
+### mkfs.vfat -F32 /dev/sda1
+
+### cryptsetup -y -c aes-xts-plain64 -s 512 -h sha512 -i 5000 --use-random luksFormat /dev/sda2
+
+### cryptsetup luksDump /dev/sda2
+
+### ** livecd ~# cryptsetup luksOpen /dev/sda2 luksdev
+
+### ** livecd ~# mkfs.btrfs -L Gentoo /dev/mapper/luksdev
+
+### ** livecd ~# mount /dev/mapper/luksdev /mnt/gentoo
+
+### ** livecd ~# btrfs subvolume create /mnt/gentoo/@
+
+### ** livecd ~# btrfs subvolume create /mnt/gentoo/@home
+
+### ** livecd ~# btrfs subvolume create /mnt/gentoo/@snapshots
+
+### ** livecd ~# btrfs subvolume list /mnt/gentoo
+
+### ** livecd ~# umount /mnt/gentoo
+
+### ** livecd ~# mount -t btrfs -o noatime,relatime,compress=lzo,ssd,space_cache,subvol=@ /dev/mapper/luksdev /mnt/gentoo
+
+
+INSTALACON DE GENTOO
+
+### date
+
+### date MMDDhhmmYYYY
+
+### mkdir -p /mnt/gentoo/boot
+### mkdir -p /mnt/gentoo/home
+
+### ** (chroot) livecd / # mkdir -p /mnt/gentoo/.snapshots
+
+### mount /dev/sda1 /mnt/gentoo/boot
+
+### ** livecd ~# cd /mnt/gentoo/
+
+### ** livecd /mnt/gentoo # mount -t btrfs -o noatime,relatime,compress=lzo,ssd,space_cache,subvol=@snapshots /dev/mapper/luksdev /mnt/gentoo/.snapshots 
+
+### ** livecd /mnt/gentoo # mount -t btrfs -o noatime,relatime,compress=lzo,ssd,space_cache,subvol=@home /dev/mapper/luksdev /mnt/gentoo/home 
+
+
+### ** livecd /mnt/gentoo # wget https://bouncer.gentoo.org/fetch/root/all/releases/amd64/autobuilds/20201222T005811Z/stage3-amd64-systemd-20201222T005811Z.tar.xz
+
+
+### ** livecd /mnt/gentoo # tar xpvf stage3-*.tar.xz --xattrs-include='*.*' --numeric-owner
+
+
+CONFIGURAR MAKE.CONF
+
+Conocer si Libinput esta como controlador de entrada por defecto
+
+### nano -w /mnt/gentoo/etc/portage/make.conf
+
+	# These settings were set by the catalyst build script that automatically
+	# built this stage.
+	# Please consult /usr/share/portage/config/make.conf.example for a more
+	# detailed example.
+	COMMON_FLAGS="-march=skylake -O2 -pipe"
+	CFLAGS="${COMMON_FLAGS}"
+	CXXFLAGS="${COMMON_FLAGS}"
+	FCFLAGS="${COMMON_FLAGS}"
+	FFLAGS="${COMMON_FLAGS}"
+
+ CPU_FLAGS_X86="aes avx avx2 f16c fma3 mmx mmxext pclmul popcnt rdrand sse sse2 sse3 sse4_1 sse4_2 ssse3" 
+
+
+	MAKEOPTS="-j4"
+	VIDEO_CARDS="intel i965 iris"
+	GRUB_PLATFORMS="efi-64"
+
+	INPUT_DEVICES="libinput synaptics"
+
+ ACCEPT_KEYWORDS="amd64"
+
+	# ACCEPT_LICENSE="*"
+	ACCEPT_LICENSE="-* @FREE"
+
+
+	# NOTE: This stage was built with the bindist Use flag enabled
+	PORTDIR="/var/db/repos/gentoo"
+	DISTDIR="/var/cache/distfiles"
+	PKGDIR="/var/cache/binpkgs"
+
+	# This sets the language of build output to English.
+	# Please keep this setting intact when reporting bugs.
+	LC_MESSAGES=C
+
+	USE="bash dbus device-mapper mount symlink truetype"
+
+ # USE="bash dbus device-mapper elogind mount policykit symlink -systemd truetype"
+
+
+
+CONFIGURAR MIRRORS
+
+
+### mirrorselect -i -o >> /mnt/gentoo/etc/portage/make.conf
+
+### mkdir /mnt/gentoo/etc/portage/repos.conf/
+
+### cp /mnt/gentoo/usr/share/portage/config/repos.conf /mnt/gentoo/etc/portage/repos.conf/gentoo.conf
+
+
+COPIAR DNS
+
+### cp -L /etc/resolv.conf /mnt/gentoo/etc/
+
+MONTAR SISTEMA DE ARCHIVOS
+
+### ** livecd /mnt/gentoo # mount -t proc /proc /mnt/gentoo/proc 
+
+### ** livecd /mnt/gentoo # mount --rbind /sys /mnt/gentoo/sys 
+
+** SOLO PARA SYSTEMD livecd /mnt/gentoo # mount --make-rslave /mnt/gentoo/sys 
+
+### ** livecd /mnt/gentoo # mount --rbind /dev /mnt/gentoo/dev 
+
+** SOLO PARA SYSTEMD livecd /mnt/gentoo # mount --make-rslave /mnt/gentoo/dev 
+
+** PARA MEDIOS DE INSTALACION NO GENTOO livecd /mnt/gentoo # test -L /dev/shm && rm /dev/shm && mkdir /dev/shm 
+
+** PARA MEDIOS DE INSTALACION NO GENTOO livecd /mnt/gentoo # mount -t tmpfs -o nosuid,nodev,noexec shm /dev/shm 
+
+** PARA MEDIOS DE INSTALACION NO GENTOO livecd /mnt/gentoo # chmod 1777 /dev/shm 
+
+
+CHROOTING
+
+### mkdir /mnt/gentoo/var/db/repos/gentoo
+
+
+### chroot /mnt/gentoo /bin/bash
+### source /etc/profile
+### export PS1="(chroot) $PS1"
+
+
+### emerge-webrsync -v
+### emerge --sync
+
+### eselect profile list
+
+### eselect profile set <<el_número_del_perfil>>
+
+
+ACTUALIZAR WORLD
+
+
+### ** (chroot) livecd ~# mkdir -p /etc/portage/package.{accept_keywords,license,mask,unmask,use} 
+
+### ** root # emerge --ask --verbose --update --deep --newuse @world
+
+CONFIGURAR LOCALES
+
+
+### echo "America/Lima" > /etc/timezone
+### emerge --config sys-libs/timezone-data
+
+### nano -l /etc/locale.gen
+
+	es_PE.UTF-8 UTF-8
+
+### locale-gen
+
+### eselect locale list
+
+### eselect locale set <<número_de_la_localización>>
+
+### env-update
+### source /etc/profile
+### export PS1="(chroot) $PS1"
+
+
+INSTALAR SOURCES
+
+### ** (chroot) livecd ~# emerge --ask sys-kernel/gentoo-sources
+
+### ** (chroot) livecd ~# emerge --ask sys-kernel/genkernel 
+
+### echo ">=sys-kernel/linux-firmware-20210315 linux-fw-redistributable no-source-code" >> /etc/portage/package.license/sys-kernel_linux-firmware
+# echo ">=sys-kernel/linux-firmware-20200519 initramfs" >> /etc/portage/package.use/sys-kernel_linux-firmware
+# echo ">=sys-firmware/intel-microcode-20200520_p20200601 initramfs" >> /etc/portage/package.use/sys-firmware_intel-microcode
+### echo ">=sys-firmware/intel-microcode-20200520_p20200601 intel-ucode" >> /etc/portage/package.license/sys-firmware_intel-microcode
+
+### ** (chroot) livecd ~# emerge --ask sys-kernel/genkernel 
+
+### ** (chroot) livecd ~# emerge --ask sys-firmware/intel-microcode 
+
+### ** (chroot) livecd ~# emerge --ask sys-fs/cryptsetup
+
+### emerge -av sys-apps/pciutils
+
+### ls -l /usr/src/linux
+
+	En caso de algun error correr lo siguiente:
+	ln -s /usr/src/linux-version_actual /usr/src/linux
+
+### emerge --ask sys-fs/btrfs-progs
+
+CONFIGURAR GENKERNEL
+
+** (chroot) livecd ~# cd /etc/ 
+
+### ** (chroot) livecd /etc # cp -p /etc/genkernel.conf /etc/genkernel.conf.ORIG 
+
+### ** (chroot) livecd /etc # nano -w /etc/genkernel.conf 
+
+ ...
+ MAKEOPTS="$(portageq envvar MAKEOPTS)"
+ ...
+ LUKS="yes"
+ ...
+ BTRFS="yes"
+ ... 
+
+
+### emerge --ask dev-util/gtk-doc
+
+EJECUTAR GENKERNEL
+
+### ** (chroot) livecd ~# genkernel --btrfs --luks all 
+
+
+AVERIGUAR UUIDS
+
+** (chroot) livecd ~# blkid
+
+/dev/sda1 --- boot
+/dev/mapper/luksdev
+
+
+(chroot) livecd / # nano -lw /etc/fstab
+
+# /etc/fstab: static file system information.
+
+UUID=1D97-3854 /boot vfat noatime 0 1 
+
+UUID=a000eea9-d97c-4107-ae39-602049a6acaa / btrfs noatime,relatime,compress=lzo,ssd,space_cache,discard=async,subvol=@ 0 0 
+
+UUID=a000eea9-d97c-4107-ae39-602049a6acaa /home btrfs noatime,relatime,compress=lzo,ssd,space_cache,discard=async,subvol=@home 0 0 
+
+UUID=a000eea9-d97c-4107-ae39-602049a6acaa /.snapshots btrfs noatime,relatime,compress=lzo,ssd,space_cache,discard=async,subvol=@snapshots 0 0 
+
+# tmps 
+
+tmpfs /tmp tmpfs defaults,size=4G 0 0 
+
+tmpfs /run tmpfs size=100M 0 0 
+
+# shm shm /dev/shm tmpfs nodev,nosuid,noexec 0 0 
+
+
+CONFIGURAR SISTEMA
+
+### nano -lw /etc/conf.d/hostname
+
+	gent00s
+
+# ifconfig
+
+### nano -lw /etc/conf.d/net
+
+	config_wlp1s0="dhcp"
+
+### cd /etc/init.d
+### ln -s net.lo net.wlp1s0
+
+# passwd
+
+### nano -lw /etc/conf.d/keymaps
+
+	la-latin1
+	
+
+INSTALAR GRUB
+
+
+### ** (chroot) livecd ~# emerge --ask sys-boot/grub
+
+
+** (chroot) livecd ~# grub-install --target=x86_64-efi --efi-directory=/boot
+
+
+** (chroot) livecd ~# blkid | egrep '(crypto_LUKS|luksdev)'
+
+/dev/sda2 --- crypt_root
+/dev/mapper/luksdev --- root
+
+
+** nano -w /etc/default/grub
+
+
+# GRUB_DEVICE=/dev/ram0
+
+
+
+GRUB_ENABLE_CRYPTODISK=y
+GRUB_CMDLINE_LINUX="crypt_root=UUID=1ce717f4-5a82-49e7-ae1c-9a92e4c20251 root=UUID=a000eea9-d97c-4107-ae39-602049a6acaa rootflags=subvol=@" 
+
+
+** (chroot) livecd ~# grub-mkconfig -o /boot/grub/grub.cfg 
+
+
+FINALES
+
+### emerge --ask net-misc/dhcpcd
+
+
+### emerge -a net-wireless/wpa_supplicant net-wireless/wireless-tools net-wireless/iw
+
+
+# emerge -a gentoolkit pciutils
+
+
+# useradd -m -G users,wheel,audio,video,usb,portage -s /bin/bash mjpier
+
+# passwd mjpier
+
+# emerge -a app-admin/sudo
+
+# nano -w /etc/sudoers
+
+	## Uncomment to allow members of group wheel to execute any command
+	%wheel ALL=(ALL) ALL
+
+
+# exit
+
+# cd ../../
+
+# umount -l /mnt/gentoo/dev{/pts,/shm,}
+
+# umount -R /mnt/gentoo
+
+# reboot
+
+
+
+########################################################
+########################################################
+########################################################
+
+ACTUALIZAR SISTEMA
+root #emerge --update --deep --with-bdeps=y @world
+
+ACTUALIZAR SISTEMA CUANDO CAMBIE ALGUNA USE
+root #emerge --update --deep --with-bdeps=y --newuse @world
+
+
+ELIMINAR PAQUETES
+root # emerge --ask --depclean --verbose app-shells/zsh
+
+
+ZRAM
+
+# emerge -av zram-init
+
+
+XORG
+
+emerge -a xorg-server
+
+¿AGREGAR DBUS A DEFAULT CREO???
+
+##### rc-update show
+
+# rc-update add elogind boot (AL PARECER NO ESTA ACTIVO)
+# rc-update add dbus default
+
+EL UDEV ESTA EN SYSINIT
+
+
+
+
+BSPWM
+
+Como root
+
+# emerge -av x11-wm/bspwm
+
+# emerge -av x11-misc/sxhkd
+
+
+Como usuario normal
+
+
+mkdir -p ~/.config/{bspwm,sxhkd}
+
+cp /usr/share/doc/bspwm-*/examples/bspwmrc ~/.config/bspwm/
+
+cp /usr/share/doc/bspwm-*/examples/sxhkdrc ~/.config/sxhkd/
+
+chmod +x ~/.config/bspwm/bspwmrc ~/.config/sxhkd/sxhkdrc
+
+echo 'exec bspwm' > ~/.xinitrc 
+
+startx 
+
+
+POLYBAR
+
+USE GLOBAL= alsa    USE LOCAL=mpd network
+
+# emerge -av x11-misc/polybar
+
+ROFI
+
+# emerge -av x11-misc/rofi
+
+PICOM
+
+# emerge -av x11-misc/picom
+
+NVIM
+
+# emerge -av app-editors/neovim
+
+
+FEH
+
+# emerge -av media-gfx/feh 
+
+RANGER
+
+# emerge -av app-misc/ranger
+
+FONTS
+
+# emerge -av media-fonts/fontawesome
+
+# emerge -av media-fonts/unifont
+
+HTOP
+
+# emerge -a sys-process/htop
+
+
+SETXKBMAP
+
+# emerge -av x11-apps/setxkbmap
+
+
+
+
+ZSH
+
+# emerge -av app-shells/zsh
+
+# emerge -av app-shells/zsh-completions
+
+# emerge -av app-shells/zsh-syntax-highlighting
+
+# emerge -av app-shells/gentoo-zsh-completions
+
+ZSH GIT
+
+# zsh-theme-powerlevel10k
+
+zsh-autosuggestions 
+zsh-history-substring-search 
+
+
+
+MPD Y NCMPCPP
+
+# emerge -av media-sound/mpd
+
+# emerge -av media-sound/ncmpcpp
+
+# mpd ./mpd/mpd.conf
+# ncmpcpp
+
+
+DUNST
+
+# emerge -av x11-misc/dunst
+# emerge -av x11-libs/libnotify
+# notify-send "Summary" "Notification text"
+
+
+
+MPV
+
+# emerge -av media-video/mpv
+
+
+
+PDFs
+
+# emerge -av app-text/zathura
+# emerge -av app-text/zathura-pdf-mupdf
+
+
+FZF
+
+# emerge -av app-shells/fzf
+
+
+
+
+
+
+
+
+
+MPC
+
+media-sound/mpc
+
+SXIV
+
+media-gfx/sxiv
+
+
+
+
+emerge -a sys-fs/xfsprogs 
+sys-fs/exfat-utils 
+sys-fs/dosfstools 
+sys-fs/ntfs3g
+
+
+
+
+emerge -a x11-terms/xterm
+emerge -a app-admin/ccze 
+
+app-arch/unp 
+app-editors/vim 
+app-eselect/eselect-awk 
+app-misc/screen 
+app-shells/gentoo-zsh-completions 
+app-shells/gentoo-zsh-completions 
+app-vim/colorschemes 
+app-vim/eselect-syntax 
+app-vim/genutils 
+app-vim/ntp-syntax  
+x11-terms/rxvt-unicode
+
+
+
+
+
+
+
+
+
+
+# emerge --ask sys-apps/iproute2  
+
+# emerge -a net-wireless/wpa_supplicant
+
+
+net-misc/dhcpcd
+sys-fs/dosfstools
+
+net-wireless/wireless-tools net-wireless/iw
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
