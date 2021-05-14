@@ -1,0 +1,90 @@
+May 06 19:08 : exception: Failed to open '/home/mjpier/.mpd/state/mpdstate': No such file or directory
+May 06 19:08 : update: added LLuvia_en_el_desierto/01 Siento Celo Por Sión.mp3
+May 06 19:08 : update: added LLuvia_en_el_desierto/02 Desde Sión.mp3
+May 06 19:08 : update: added LLuvia_en_el_desierto/03 Montes De Israel.mp3
+May 06 19:08 : update: added LLuvia_en_el_desierto/04 Hallelu Et Adonai.mp3
+May 06 19:08 : update: added LLuvia_en_el_desierto/05 No Voy A Dejarte.mp3
+May 06 19:08 : update: added LLuvia_en_el_desierto/06 Porque Habré De Temer.mp3
+May 06 19:08 : update: added LLuvia_en_el_desierto/07 Eres Nuestro Dios.mp3
+May 06 19:08 : update: added LLuvia_en_el_desierto/08 Bendito Es El Señor.mp3
+May 06 19:08 : update: added LLuvia_en_el_desierto/09 Quién Es Como Tú (Mi Kamoja).mp3
+May 06 19:08 : update: added LLuvia_en_el_desierto/10 El Diamante Gira.mp3
+May 06 19:08 : update: added LLuvia_en_el_desierto/11 He Aquí El Señor.mp3
+May 06 19:08 : update: added LLuvia_en_el_desierto/12 De Dios Viene La Salvación.mp3
+May 06 19:08 : update: added Tu_gran_nombre/01 La Canción De Ezequiel.mp3
+May 06 19:08 : update: added Tu_gran_nombre/02 Prepara La Senda.mp3
+May 06 19:08 : update: added Tu_gran_nombre/03 El Gran YO SOY.mp3
+May 06 19:08 : update: added Tu_gran_nombre/04 Que Comparar.mp3
+May 06 19:08 : update: added Tu_gran_nombre/05 Quien Como Tú, Señor.mp3
+May 06 19:08 : update: added Tu_gran_nombre/06 La Canción De La Novia Celestial.mp3
+May 06 19:08 : update: added Tu_gran_nombre/07 Oh Gloria Ven.mp3
+May 06 19:08 : update: added Tu_gran_nombre/08 Vamos Pronto Corriendo - Ani Ma'Amin.mp3
+May 06 19:08 : update: added Tu_gran_nombre/09 Poderoso Y Glorioso.mp3
+May 06 19:08 : update: added Tu_gran_nombre/10 No Hay Nadie Como Tú.mp3
+May 06 19:08 : update: added Tu_gran_nombre/11 Tu Gran Nombre.mp3
+May 06 19:08 : update: added /01 Siento Celo Por Sión.mp3
+May 06 19:08 : update: added /02 Desde Sión.mp3
+May 06 19:08 : update: added /03 Montes De Israel.mp3
+May 06 19:08 : update: added /04 Hallelu Et Adonai.mp3
+May 06 19:08 : update: added /05 No Voy A Dejarte.mp3
+May 06 19:08 : update: added /06 Porque Habré De Temer.mp3
+May 06 19:08 : update: added /07 Eres Nuestro Dios.mp3
+May 06 19:08 : update: added /08 Bendito Es El Señor.mp3
+May 06 19:08 : update: added /09 Quién Es Como Tú (Mi Kamoja).mp3
+May 06 19:08 : update: added /10 El Diamante Gira.mp3
+May 06 19:08 : update: added /11 He Aquí El Señor.mp3
+May 06 19:08 : update: added /12 De Dios Viene La Salvación.mp3
+May 06 19:08 : update: added /01 La Canción De Ezequiel.mp3
+May 06 19:08 : update: added /02 Prepara La Senda.mp3
+May 06 19:08 : update: added /03 El Gran YO SOY.mp3
+May 06 19:08 : update: added /04 Que Comparar.mp3
+May 06 19:08 : update: added /05 Quien Como Tú, Señor.mp3
+May 06 19:08 : update: added /06 La Canción De La Novia Celestial.mp3
+May 06 19:08 : update: added /07 Oh Gloria Ven.mp3
+May 06 19:08 : update: added /08 Vamos Pronto Corriendo - Ani Ma'Amin.mp3
+May 06 19:08 : update: added /09 Poderoso Y Glorioso.mp3
+May 06 19:08 : update: added /10 No Hay Nadie Como Tú.mp3
+May 06 19:08 : update: added /11 Tu Gran Nombre.mp3
+May 06 19:51 : exception: Failed to create /home/mjpier/.mpd/state/mpdstate: Not a directory
+May 06 22:26 : exception: Failed to open '/home/mjpier/.mpd/state/mpdstate': No such file or directory
+May 07 17:53 : player: played "07 Eres Nuestro Dios.mp3"
+May 07 17:57 : player: played "08 Bendito Es El Señor.mp3"
+May 10 17:50 : player: played "03 El Gran YO SOY.mp3"
+May 10 17:55 : player: played "03 Montes De Israel.mp3"
+May 10 18:00 : player: played "04 Hallelu Et Adonai.mp3"
+May 10 18:05 : player: played "04 Que Comparar.mp3"
+May 10 18:09 : player: played "05 No Voy A Dejarte.mp3"
+May 10 18:13 : player: played "05 Quien Como Tú, Señor.mp3"
+May 10 18:19 : player: played "06 La Canción De La Novia Celestial.mp3"
+May 10 18:26 : player: played "06 Porque Habré De Temer.mp3"
+May 10 18:32 : player: played "07 Eres Nuestro Dios.mp3"
+May 10 18:38 : player: played "07 Oh Gloria Ven.mp3"
+May 10 18:43 : player: played "08 Bendito Es El Señor.mp3"
+May 10 18:49 : player: played "08 Vamos Pronto Corriendo - Ani Ma'Amin.mp3"
+May 10 20:25 : player: played "09 Poderoso Y Glorioso.mp3"
+May 10 20:28 : player: played "09 Quién Es Como Tú (Mi Kamoja).mp3"
+May 10 20:35 : player: played "10 El Diamante Gira.mp3"
+May 10 20:43 : player: played "10 No Hay Nadie Como Tú.mp3"
+May 10 20:48 : player: played "11 He Aquí El Señor.mp3"
+May 10 20:54 : player: played "11 Tu Gran Nombre.mp3"
+May 10 20:55 : player: played "12 De Dios Viene La Salvación.mp3"
+May 11 17:57 : player: played "03 El Gran YO SOY.mp3"
+May 11 18:03 : player: played "03 Montes De Israel.mp3"
+May 11 18:07 : player: played "04 Hallelu Et Adonai.mp3"
+May 11 18:12 : player: played "04 Que Comparar.mp3"
+May 11 18:16 : player: played "05 No Voy A Dejarte.mp3"
+May 11 18:20 : player: played "05 Quien Como Tú, Señor.mp3"
+May 11 18:26 : player: played "06 La Canción De La Novia Celestial.mp3"
+May 11 18:34 : player: played "06 Porque Habré De Temer.mp3"
+May 11 18:40 : player: played "07 Eres Nuestro Dios.mp3"
+May 11 18:45 : player: played "07 Oh Gloria Ven.mp3"
+May 11 18:51 : player: played "08 Bendito Es El Señor.mp3"
+May 11 18:57 : player: played "08 Vamos Pronto Corriendo - Ani Ma'Amin.mp3"
+May 11 19:01 : player: played "09 Poderoso Y Glorioso.mp3"
+May 11 19:03 : player: played "09 Quién Es Como Tú (Mi Kamoja).mp3"
+May 11 19:10 : player: played "10 El Diamante Gira.mp3"
+May 11 19:18 : player: played "10 No Hay Nadie Como Tú.mp3"
+May 11 19:23 : player: played "11 He Aquí El Señor.mp3"
+May 11 19:30 : player: played "11 Tu Gran Nombre.mp3"
+May 11 19:35 : player: played "12 De Dios Viene La Salvación.mp3"
+May 11 19:41 : player: played "01 La Canción De Ezequiel.mp3"

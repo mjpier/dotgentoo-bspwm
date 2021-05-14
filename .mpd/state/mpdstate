@@ -1,0 +1,33 @@
+sw_volume: 84
+audio_device_state:1:Alsa for audio sound card
+state: stop
+random: 0
+repeat: 0
+single: 0
+consume: 0
+crossfade: 0
+mixrampdb: 0.000000
+mixrampdelay: -1.000000
+playlist_begin
+0:02 Desde Sión.mp3
+1:03 El Gran YO SOY.mp3
+2:03 Montes De Israel.mp3
+3:04 Hallelu Et Adonai.mp3
+4:04 Que Comparar.mp3
+5:05 No Voy A Dejarte.mp3
+6:05 Quien Como Tú, Señor.mp3
+7:06 La Canción De La Novia Celestial.mp3
+8:06 Porque Habré De Temer.mp3
+9:07 Eres Nuestro Dios.mp3
+10:07 Oh Gloria Ven.mp3
+11:08 Bendito Es El Señor.mp3
+12:08 Vamos Pronto Corriendo - Ani Ma'Amin.mp3
+13:09 Poderoso Y Glorioso.mp3
+14:09 Quién Es Como Tú (Mi Kamoja).mp3
+15:10 El Diamante Gira.mp3
+16:10 No Hay Nadie Como Tú.mp3
+17:11 He Aquí El Señor.mp3
+18:11 Tu Gran Nombre.mp3
+19:12 De Dios Viene La Salvación.mp3
+20:01 La Canción De Ezequiel.mp3
+playlist_end
